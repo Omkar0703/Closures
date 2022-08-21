@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trending movie List</title>
+    <style>
+        #container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 10px 150px 10px 150px;
+        }
+
+        #container div {
+            width: 350px;
+            height: 450px;
+            text-align: center;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            ;
+        }
+
+        h1,
+        h2 {
+            color: red;
+
+        }
+
+        #container div img {
+            width: 350px;
+            height: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>List of Trending Movies</h1>
+    <div id="container">
+
+    </div>
+</body>
+
+</html>
+<script>
+    let url = "https://api.themoviedb.org/3/trending/movie/week?api_key=c99715f4526fcf04acc4643716139590";
+ 
+    let fun = async () => {
+        let data = await fetch(url);
+        let res = await data.json();
+        res = res.results;
+        console.log(res)
+        let container = document.getElementById("container");
+            container.innerHTML = ""
+        res.forEach(ele => {
+           
+            let card = document.createElement("div");
+            card.id = "card";
+
+            let title = document.createElement("h3");
+            title.id = "name";
+            title.innerText = `Title: ${ele.title}`;
+            let release_date = document.createElement("h3");
+            release_date.innerText = `Release Date: ${ele.release_date}`
+
+            let poster = document.createElement("img");
+            poster.id = "poster";
+            poster.src = `https://image.tmdb.org/t/p/w500/${ele.poster_path}`
+
+            card.append(poster,title,release_date);
+            container.append(card);
+            
+        });
+    }
+    fun()
+</script>
